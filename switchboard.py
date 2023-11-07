@@ -14,6 +14,7 @@ def main_menu():
         print('\n*** Главное меню ***\n')
         print('L – Отобразить список заметок (в порядке добавления)')
         print('S – Отобразить список заметок (отсортированный по дате, по убыванию)')
+        print('F – Отфильтровать список заметок по дате (по убыванию)')
         print('O – Открыть заметку')
         print('A – Добавить заметку')
         print('U – Изменить заметку')
@@ -116,6 +117,26 @@ def main_menu():
                 reverse_order = True  # Change to 'False' for ascending order
                 ordered_dict = data.sort_by_date_time(reverse_order)
                 display_entries(ordered_dict)
+            case 'F' | 'f':
+                # Filter a list by date in descending order
+                reverse_order = True  # Change to 'False' for ascending order
+                try:
+                    date_input = input('Введите дату в формате ДД/ММ/ГГГГ:')
+                    selected_date = datetime.strptime(date_input, "%d/%m/%Y")
+                    selected_timestamp = int(datetime.timestamp(selected_date))
+                    nextday = selected_timestamp + (24 * 60 * 60)
+                    entries = data.sort_by_date_time(reverse_order)
+                    for uid, entry in entries.items():
+                        for k, v in entry.items():
+                            if v in range(selected_timestamp, nextday):
+                                print('\nID: ' + uid)
+                                if k == 'Timestamp':
+                                    dt_obj = datetime.fromtimestamp(v).strftime('%d-%m-%Y %H:%M:%S')
+                                    print('Дата и время публикации: ' + str(dt_obj))
+                                elif k == 'Header':
+                                    print('Заголовок: ' + str(v))
+                except ValueError:
+                    print('\n>>> Неверный формат даты!')
             case 'Q' | 'q':
                 # Quit the programme
                 return False
