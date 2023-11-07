@@ -113,7 +113,7 @@ def main_menu():
                     print('\n>>> Заметки с ID ' + str(entry_id_to_update) + ' не существует')
             case 'S' | 's':
                 # Sort a list by timestamp in descending order
-                reverse_order = True  # Change for ASC or DESC order
+                reverse_order = True  # Change to 'False' for ascending order
                 ordered_dict = data.sort_by_date_time(reverse_order)
                 display_entries(ordered_dict)
             case 'Q' | 'q':
