@@ -5,10 +5,6 @@ from datetime import datetime
 data = io.Crud('data.json')
 
 
-def get_input_from_user(message):
-    return input(message)
-
-
 def main_menu():
     while True:
         print('\n*** Главное меню ***\n')
