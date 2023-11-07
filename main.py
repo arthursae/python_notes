@@ -1,3 +1,3 @@
-import switchboard
+import switchboard as sb
 
-switchboard.main_menu()
+sb.main_menu()
