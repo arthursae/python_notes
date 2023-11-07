@@ -129,15 +129,18 @@ def main_menu():
                     selected_timestamp = int(datetime.timestamp(selected_date))
                     nextday = selected_timestamp + (24 * 60 * 60)  # 1 day = 24 hours * 60 minutes * 60 seconds
                     entries = data.sort_by_date_time(reverse_order)
-                    for uid, entry in entries.items():
-                        for k, v in entry.items():
-                            if v in range(selected_timestamp, nextday):
-                                print('\nID: ' + uid)
-                                if k == 'Timestamp':
-                                    dt_obj = datetime.fromtimestamp(v).strftime('%d-%m-%Y %H:%M:%S')
-                                    print('Дата и время публикации: ' + str(dt_obj))
-                                elif k == 'Header':
-                                    print('Заголовок: ' + str(v))
+                    if entries:
+                        for uid, entry in entries.items():
+                            for k, v in entry.items():
+                                if v in range(selected_timestamp, nextday):
+                                    print('\nID: ' + uid)
+                                    if k == 'Timestamp':
+                                        dt_obj = datetime.fromtimestamp(v).strftime('%d-%m-%Y %H:%M:%S')
+                                        print('Дата и время публикации: ' + str(dt_obj))
+                                    elif k == 'Header':
+                                        print('Заголовок: ' + str(v))
+                    else:
+                        print('\n>>> Заметки отсутствуют!')
                 except ValueError:
                     print('\n>>> Неверный формат даты!')
             case 'Q' | 'q':
