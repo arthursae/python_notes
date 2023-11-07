@@ -22,10 +22,19 @@ def main_menu():
         selection = input('Введите команду: ')
         match selection:
             case 'A' | 'a':
+                # Add a new entry
                 uid = data.get_the_unique_id()
+                header = input('Введите заголовок заметки: ')
+                while header == "":
+                    print('>>> Заголовок не должен быть пустым!')
+                    header = input('Введите заголовок заметки: ')
+                body = input('Введите тело заметки: ')
+                while body == "":
+                    print('>>> Тело заметки не должно быть пустым!')
+                    body = input('Введите тело заметки: ')
                 entry_data_to_add = {
-                    "Header": input('Введите заголовок заметки: '),
-                    "Body": input('Введите тело заметки: '),
+                    "Header": header,
+                    "Body": body,
                     "Timestamp": int(time.time())
                 }
                 current_data = data.read_json_data_from_file()
@@ -36,25 +45,31 @@ def main_menu():
                     data.write_json_data_to_file({uid: entry_data_to_add})
                 print('\n>>> Заметка успешно сохранена!')
             case 'O' | 'o':
-                single_entry_id = input('Введите номер заметки, которую нужно отобразить: ')
+                # Display a single entry by ID
+                single_entry_id = input('Введите ID номер заметки, которую нужно отобразить: ')
+                while single_entry_id == "":
+                    print('>>> Необходимо ввести ID номер заметки!')
+                    single_entry_id = input('Введите ID номер заметки: ')
                 try:
                     single_entry_id = int(single_entry_id)
                 except ValueError:
                     single_entry_id = 0
-                single_entry = data.get_single_entry(single_entry_id)
-                if single_entry:
-                    print('\nID: ' + str(single_entry_id))
-                    for key, value in single_entry.items():
-                        if key == 'Timestamp':
-                            dt_obj = datetime.fromtimestamp(value).strftime('%d-%m-%Y %H:%M:%S')
-                            print('Дата и время публикации: ' + str(dt_obj))
-                        elif key == 'Header':
-                            print('Заголовок: ' + str(value))
-                        elif key == 'Body':
-                            print('Тело: ' + str(value))
+                if single_entry_id != 0:
+                    single_entry = data.get_single_entry(single_entry_id)
+                    if single_entry:
+                        print('\nID: ' + str(single_entry_id))
+                        for key, value in single_entry.items():
+                            if key == 'Timestamp':
+                                dt_obj = datetime.fromtimestamp(value).strftime('%d-%m-%Y %H:%M:%S')
+                                print('Дата и время публикации: ' + str(dt_obj))
+                            elif key == 'Header':
+                                print('Заголовок: ' + str(value))
+                            elif key == 'Body':
+                                print('Тело: ' + str(value))
                 else:
                     print('\n>>> Заметки с ID ' + str(single_entry_id) + ' не существует')
             case 'L' | 'l':
+                # List all entries ommiting body content
                 current_data = data.read_json_data_from_file()
                 if current_data:
                     for uid, entry in current_data.items():
@@ -68,26 +83,39 @@ def main_menu():
                 else:
                     print('\n>>> Заметки отсутствуют')
             case 'D' | 'd':
+                # Delete an entry by ID
                 entry_id_to_delete = input('Введите номер заметки, которую нужно удалить: ')
+                while entry_id_to_delete == "":
+                    print('>>> Необходимо ввести ID номер заметки!')
+                    entry_id_to_delete = input('Введите ID номер заметки: ')
                 try:
                     entry_id_to_delete = int(entry_id_to_delete)
                 except ValueError:
                     entry_id_to_delete = 0
-                if data.single_entry_exists(entry_id_to_delete):
+                if entry_id_to_delete != 0 and data.single_entry_exists(entry_id_to_delete):
                     data.delete_single_entry(entry_id_to_delete)
                     print('\n>>> Заметка удалена')
                 else:
                     print('\n>>> Заметки с ID ' + str(entry_id_to_delete) + ' не существует')
             case 'U' | 'u':
+                # Update an entry by ID
                 entry_id_to_update = input('Введите номер заметки, которую нужно обновить: ')
                 try:
                     entry_id_to_update = int(entry_id_to_update)
                 except ValueError:
                     entry_id_to_update = 0
-                if data.single_entry_exists(entry_id_to_update):
+                if entry_id_to_update != 0 and data.single_entry_exists(entry_id_to_update):
+                    header = input('Введите новый заголовок заметки: ')
+                    while header == "":
+                        print('>>> Заголовок не должен быть пустым!')
+                        header = input('Введите новый заголовок заметки: ')
+                    body = input('Введите новое тело заметки: ')
+                    while body == "":
+                        print('>>> Тело заметки не должно быть пустым!')
+                        body = input('Введите новое тело заметки: ')
                     entry_to_update = {
-                        "Header": input('Введите новый заголовок заметки: '),
-                        "Body": input('Введите новое тело заметки: '),
+                        "Header": header,
+                        "Body": body,
                         "Timestamp": int(time.time())
                     }
                     data.update_single_entry(entry_id_to_update, entry_to_update)
@@ -95,6 +123,7 @@ def main_menu():
                 else:
                     print('\n>>> Заметки с ID ' + str(entry_id_to_update) + ' не существует')
             case 'S' | 's':
+                # Sort a list by timestamp in descending order
                 ordered_dict = data.sort_by_date_time()
                 for uid, entries in ordered_dict.items():
                     print('\nID: ' + uid)
@@ -105,6 +134,7 @@ def main_menu():
                         elif k == 'Header':
                             print('Заголовок: ' + str(v))
             case 'Q' | 'q':
+                # Quit the programme
                 return False
             case _:
                 print('\n>>> Введена неверная команда')
