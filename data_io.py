@@ -66,9 +66,10 @@ class Crud:
                     return True
         return False
 
-    def sort_by_date_time(self):
+    def sort_by_date_time(self, reverse_order=True):
         if self.read_json_data_from_file():
             data = self.read_json_data_from_file()
-            ordered_dict = OrderedDict(sorted(data.items(), key=lambda x: getitem(x[1], 'Timestamp'), reverse=True))
+            ordered_dict = OrderedDict(
+                sorted(data.items(), key=lambda x: getitem(x[1], 'Timestamp'), reverse=reverse_order))
             return ordered_dict
         return False
