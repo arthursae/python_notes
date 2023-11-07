@@ -116,9 +116,12 @@ def main_menu():
                 # Sort a list by timestamp in descending order
                 reverse_order = True  # Change to 'False' for ascending order
                 ordered_dict = data.sort_by_date_time(reverse_order)
-                display_entries(ordered_dict)
+                if ordered_dict:
+                    display_entries(ordered_dict)
+                else:
+                    print('\n>>> Заметки отсутствуют!')
             case 'F' | 'f':
-                # Filter a list by date
+                # Filter a list by dates
                 reverse_order = True  # Change to 'False' for ascending order
                 try:
                     date_input = input('Введите дату в формате ДД/ММ/ГГГГ:')
