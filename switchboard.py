@@ -118,13 +118,13 @@ def main_menu():
                 ordered_dict = data.sort_by_date_time(reverse_order)
                 display_entries(ordered_dict)
             case 'F' | 'f':
-                # Filter a list by date in descending order
+                # Filter a list by date
                 reverse_order = True  # Change to 'False' for ascending order
                 try:
                     date_input = input('Введите дату в формате ДД/ММ/ГГГГ:')
                     selected_date = datetime.strptime(date_input, "%d/%m/%Y")
                     selected_timestamp = int(datetime.timestamp(selected_date))
-                    nextday = selected_timestamp + (24 * 60 * 60)
+                    nextday = selected_timestamp + (24 * 60 * 60)  # 1 day = 24 hours * 60 minutes * 60 seconds
                     entries = data.sort_by_date_time(reverse_order)
                     for uid, entry in entries.items():
                         for k, v in entry.items():
