@@ -58,28 +58,17 @@ def main_menu():
                     single_entry = data.get_single_entry(single_entry_id)
                     if single_entry:
                         print('\nID: ' + str(single_entry_id))
-                        for key, value in single_entry.items():
-                            if key == 'Timestamp':
-                                dt_obj = datetime.fromtimestamp(value).strftime('%d-%m-%Y %H:%M:%S')
-                                print('Дата и время публикации: ' + str(dt_obj))
-                            elif key == 'Header':
-                                print('Заголовок: ' + str(value))
-                            elif key == 'Body':
-                                print('Тело: ' + str(value))
+                        dt_obj = datetime.fromtimestamp(single_entry['Timestamp']).strftime('%d-%m-%Y %H:%M:%S')
+                        print('Дата и время публикации: ' + str(dt_obj))
+                        print('Заголовок: ' + str(single_entry['Header']))
+                        print('Тело: ' + str(single_entry['Body']))
                 else:
                     print('\n>>> Заметки с ID ' + str(single_entry_id) + ' не существует')
             case 'L' | 'l':
                 # List all entries ommiting body content
                 current_data = data.read_json_data_from_file()
                 if current_data:
-                    for uid, entry in current_data.items():
-                        print('\nID: ' + uid)
-                        for key, value in entry.items():
-                            if key == 'Timestamp':
-                                date_time = datetime.fromtimestamp(value).strftime('%d-%m-%Y %H:%M:%S')
-                                print('Дата и время публикации: ' + str(date_time))
-                            elif key == 'Header':
-                                print('Заголовок: ' + str(value))
+                    display_entries(current_data)
                 else:
                     print('\n>>> Заметки отсутствуют')
             case 'D' | 'd':
@@ -124,18 +113,23 @@ def main_menu():
                     print('\n>>> Заметки с ID ' + str(entry_id_to_update) + ' не существует')
             case 'S' | 's':
                 # Sort a list by timestamp in descending order
-                ordered_dict = data.sort_by_date_time()
-                for uid, entries in ordered_dict.items():
-                    print('\nID: ' + uid)
-                    for k, v in entries.items():
-                        if k == 'Timestamp':
-                            dt_obj = datetime.fromtimestamp(v).strftime('%d-%m-%Y %H:%M:%S')
-                            print('Дата и время публикации: ' + str(dt_obj))
-                        elif k == 'Header':
-                            print('Заголовок: ' + str(v))
+                reverse_order = True  # Change for ASC or DESC order
+                ordered_dict = data.sort_by_date_time(reverse_order)
+                display_entries(ordered_dict)
             case 'Q' | 'q':
                 # Quit the programme
                 return False
             case _:
                 print('\n>>> Введена неверная команда')
                 return main_menu()
+
+
+def display_entries(entries):
+    for uid, entry in entries.items():
+        print('\nID: ' + uid)
+        for k, v in entry.items():
+            if k == 'Timestamp':
+                dt_obj = datetime.fromtimestamp(v).strftime('%d-%m-%Y %H:%M:%S')
+                print('Дата и время публикации: ' + str(dt_obj))
+            elif k == 'Header':
+                print('Заголовок: ' + str(v))
