@@ -70,7 +70,7 @@ def main_menu():
                     print('\n>>> Заметки отсутствуют')
             case 'D' | 'd':
                 # Delete an entry by ID
-                entry_id_to_delete = input('Введите номер заметки, которую нужно удалить: ')
+                entry_id_to_delete = input('Введите ID номер заметки, которую нужно удалить: ')
                 while entry_id_to_delete == "":
                     print('>>> Необходимо ввести ID номер заметки!')
                     entry_id_to_delete = input('Введите ID номер заметки: ')
@@ -85,7 +85,7 @@ def main_menu():
                     print('\n>>> Заметки с ID ' + str(entry_id_to_delete) + ' не существует')
             case 'U' | 'u':
                 # Update an entry by ID
-                entry_id_to_update = input('Введите номер заметки, которую нужно обновить: ')
+                entry_id_to_update = input('Введите ID номер заметки, которую нужно обновить: ')
                 try:
                     entry_id_to_update = int(entry_id_to_update)
                 except ValueError:
