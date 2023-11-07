@@ -67,7 +67,7 @@ def main_menu():
                 if current_data:
                     display_entries(current_data)
                 else:
-                    print('\n>>> Заметки отсутствуют')
+                    print('\n>>> Заметки отсутствуют!')
             case 'D' | 'd':
                 # Delete an entry by ID
                 entry_id_to_delete = input('Введите ID номер заметки, которую нужно удалить: ')
@@ -80,9 +80,9 @@ def main_menu():
                     entry_id_to_delete = 0
                 if entry_id_to_delete != 0 and data.single_entry_exists(entry_id_to_delete):
                     data.delete_single_entry(entry_id_to_delete)
-                    print('\n>>> Заметка удалена')
+                    print('\n>>> Заметка удалена!')
                 else:
-                    print('\n>>> Заметки с ID ' + str(entry_id_to_delete) + ' не существует')
+                    print('\n>>> Заметки с ID ' + str(entry_id_to_delete) + ' не существует!')
             case 'U' | 'u':
                 # Update an entry by ID
                 entry_id_to_update = input('Введите ID номер заметки, которую нужно обновить: ')
@@ -105,9 +105,9 @@ def main_menu():
                         "Timestamp": int(time.time())
                     }
                     data.update_single_entry(entry_id_to_update, entry_to_update)
-                    print('\n>>> Заметка обновлена')
+                    print('\n>>> Заметка обновлена!')
                 else:
-                    print('\n>>> Заметки с ID ' + str(entry_id_to_update) + ' не существует')
+                    print('\n>>> Заметки с ID ' + str(entry_id_to_update) + ' не существует!')
             case 'S' | 's':
                 # Sort a list by timestamp in descending order
                 reverse_order = True  # Change to 'False' for ascending order
@@ -143,7 +143,7 @@ def main_menu():
                 # Quit the programme
                 return False
             case _:
-                print('\n>>> Введена неверная команда')
+                print('\n>>> Введена неверная команда!')
                 return main_menu()
 
 
